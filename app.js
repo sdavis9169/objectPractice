@@ -1,55 +1,108 @@
-// THIS FUNCTION RETURNS A NEW DECK EVERYTIME WE CALL IT!
-const makeDeck = () => {
-  return {
-    deck: [],
-    drawnCards: [],
-    suits: ['hearts', 'diamonds', 'spades', 'clubs'],
-    values: '2,3,4,5,6,7,8,9,10,J,Q,K,A',
-    initializeDeck() {
-      const { suits, values, deck } = this;
-      for (let value of values.split(',')) {
-        for (let suit of suits) {
-          deck.push({
-            value,
-            suit
-          });
-        }
-      }
-      // return deck;
+const warriorsGames = [
+  {
+    awayTeam: {
+      team: 'Golden State',
+      points: 119,
+      isWinner: true
     },
-    drawCard() {
-      const card = this.deck.pop();
-      this.drawnCards.push(card);
-      return card;
-    },
-    drawMultiple(numCards) {
-      const cards = [];
-      for (let i = 0; i < numCards; i++) {
-        cards.push(this.drawCard());
-      }
-      return cards;
-    },
-    shuffle() {
-      const { deck } = this;
-      // loop over array backwards
-      for (let i = deck.length - 1; i > 0; i--) {
-        //pick random index before current element
-        let j = Math.floor(Math.random() * (i + 1));
-        //swap
-        [deck[i], deck[j]] = [deck[j], deck[i]];
-      }
+    homeTeam: {
+      team: 'Houston',
+      points: 106,
+      isWinner: false
     }
-  };
-};
+  },
+  {
+    awayTeam: {
+      team: 'Golden State',
+      points: 105,
+      isWinner: false
+    },
+    homeTeam: {
+      team: 'Houston',
+      points: 127,
+      isWinner: true
+    }
+  },
+  {
+    homeTeam: {
+      team: 'Golden State',
+      points: 126,
+      isWinner: true
+    },
+    awayTeam: {
+      team: 'Houston',
+      points: 85,
+      isWinner: false
+    }
+  },
+  {
+    homeTeam: {
+      team: 'Golden State',
+      points: 92,
+      isWinner: false
+    },
+    awayTeam: {
+      team: 'Houston',
+      points: 95,
+      isWinner: true
+    }
+  },
+  {
+    awayTeam: {
+      team: 'Golden State',
+      points: 94,
+      isWinner: false
+    },
+    homeTeam: {
+      team: 'Houston',
+      points: 98,
+      isWinner: true
+    }
+  },
+  {
+    homeTeam: {
+      team: 'Golden State',
+      points: 115,
+      isWinner: true
+    },
+    awayTeam: {
+      team: 'Houston',
+      points: 86,
+      isWinner: false
+    }
+  },
+  {
+    awayTeam: {
+      team: 'Golden State',
+      points: 101,
+      isWinner: true
+    },
+    homeTeam: {
+      team: 'Houston',
+      points: 92,
+      isWinner: false
+    }
+  }
+];
 
-// OUR FIRST DECK!
-const myDeck = makeDeck();
-myDeck.initializeDeck();
-myDeck.shuffle();
-const h1 = myDeck.drawMultiple(2);
-const h2 = myDeck.drawMultiple(2);
-const h3 = myDeck.drawMultiple(5);
+const ulParent = document.createElement('ul');
+for (let game of warriorsGames) {
+  const { homeTeam, awayTeam } = game;
+  const gameLi = document.createElement('li');
+  const { team: hTeam, points: hPoints } = homeTeam;
+  const { team: aTeam, points: aPoints } = awayTeam;
+  const teamNames = `${aTeam} @ ${hTeam}`;
+  let scoreLine;
+  if (aPoints > hPoints) {
+    scoreLine = `<b>${aPoints}</b>-${hPoints}`;
+  } else {
+    scoreLine = `${aPoints}-<b>${hPoints}</b>`;
+  }
+  const warriors = hTeam === 'Golden State' ? homeTeam : awayTeam;
+  gameLi.classList.add(warriors.isWinner ? 'win' : 'loss');
+  console.log(warriors);
+  gameLi.innerHTML = `${teamNames} ${scoreLine}`;
+  ulParent.appendChild(gameLi);
+}
 
-// OUR SECOND DECK!
-const deck2 = makeDeck();
-deck2.initializeDeck();
+document.body.prepend(ulParent);
